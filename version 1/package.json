@@ -12,7 +12,8 @@
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"dependencies": {
-		"svelte-seo": "^1.4.1"
+		"svelte-seo": "^1.4.1",
+		"svelte-confetti": "^1.2.0"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "next",

@@ -2,10 +2,12 @@
 import { Application, Command } from '../classes/Application';
 import kittenImage from '$lib/assets/nicolas-pitone-cmGtw04WTY8-unsplash.jpg';
 import capybaraImage from '$lib/assets/jaime-dantas-Fpvr7thkAf0-unsplash.jpg';
+import unicornImage from '$lib/assets/june-gathercole-CDt2jVuSkh4-unsplash.jpg';
 import ThemeButton from '$lib/ThemeButton.svelte';
 import RibbonDrawer from '$lib/RibbonDrawer.svelte';
 import RibbonButton from '$lib/RibbonButton.svelte';
 import Separator from '$lib/Separator.svelte';
+import { Confetti } from 'svelte-confetti';
 
 let textArea: ElementContentEditable & HTMLDivElement;
 
@@ -19,7 +21,8 @@ enum MenuOption {
 enum Theme {
 	Standard,
 	Kitten,
-	Capybara
+	Capybara,
+	Unicorn
 }
 
 let themeImage = '';
@@ -38,6 +41,10 @@ $: {
 		case Theme.Capybara:
 			themeImage = capybaraImage;
 			themeColor = 'bg-amber-900';
+			break;
+		case Theme.Unicorn:
+			themeImage = unicornImage;
+			themeColor = 'bg-purple-600';
 			break;
 	}
 }
@@ -151,11 +158,29 @@ class ModifySelection extends Command {
 		this.direction = direction;
 	}
 }
+
+const duration = 2000;
+let confettis = [];
+let timeout;
+
+function handleType(event: InputEvent) {
+	if (currentTheme === Theme.Unicorn) {
+		// get cursor x and y position on the screen
+		const cursorPosition = window.getSelection().getRangeAt(0).getBoundingClientRect();
+		const cursorX = cursorPosition.x;
+		const cursorY = cursorPosition.y;
+		confettis = [...confettis, { cursorX, cursorY }];
+		clearTimeout(timeout);
+		timeout = setTimeout(() => confettis = [], duration);
+	}
+
+}
 </script>
 
 <header class='{themeColor} p-1 text-white text-center'>
 	Document 1 · 🐱 Kitten Editor
 </header>
+
 
 <header class='bg-gray-200 border-b-[1px] border-gray-400 p-2 select-none'>
 	<div class='space-x-4'>
@@ -255,6 +280,9 @@ class ModifySelection extends Command {
 				<ThemeButton on:click={() => currentTheme = Theme.Capybara} active={currentTheme === Theme.Capybara} emoji='🦫'>
 					Capybara
 				</ThemeButton>
+				<ThemeButton on:click={() => currentTheme = Theme.Unicorn} active={currentTheme === Theme.Unicorn} emoji='🦄'>
+					Licorne
+				</ThemeButton>
 			</div>
 		</RibbonDrawer>
 	{:else if menuSelected === MenuOption.About}
@@ -266,11 +294,18 @@ class ModifySelection extends Command {
 	{/if}
 
 </header>
-<main class='bg-gray-200 p-4 h-full bg-local bg-cover' style='background-image: url({themeImage})'>
+<main class='bg-gray-200 p-4 h-full bg-local bg-cover ' style='background-image: url({themeImage})'>
 
-	<div contenteditable='true' bind:this={textArea}
-			 class='max-w-5xl m-auto bg-white h-full outline-none p-24 drop-shadow-lg border-[1px] border-gray-300 text-xl'
-			 placeholder='🐱 Start typing...' bind:innerHTML={application.text}></div>
+	<div on:input={handleType} contenteditable='true' bind:this={textArea}
+			 class='max-w-5xl m-auto bg-white h-full outline-none p-24 drop-shadow-lg border-[1px] border-gray-300 text-xl relative'
+			 placeholder='🐱 Start typing...' bind:innerHTML={application.text}>
+
+	</div>
+	{#each confettis as thing}
+		<div class='mover' style='position: absolute; left: {thing.cursorX}px; top: {thing.cursorY}px'>
+			<Confetti y={[-0.5, 0.5]} fallDistance='20px' amount='10' {duration} />
+		</div>
+	{/each}
 
 </main>
 
