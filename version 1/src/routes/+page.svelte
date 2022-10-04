@@ -65,15 +65,23 @@ class CutCommand extends Command {
 	}
 
 	execute(): void {
+		const sel = window.getSelection();
+		const range = sel.getRangeAt(0);
 		application.clipboard = application.getSelection(textArea);
 		// get selection start
 		const selectionStart = window.getSelection().getRangeAt(0).startOffset;
 		// get selection end
 		const selectionEnd = window.getSelection().getRangeAt(0).endOffset;
 		// remove selection
+		const caretNewPosition = selectionStart;
 		application.text = application.text.substring(0, selectionStart) + application.text.substring(selectionEnd);
 
 		textArea.innerHTML = application.text;
+		// set caret position
+		range.setStart(textArea.childNodes[0], caretNewPosition);
+		range.setEnd(textArea.childNodes[0], caretNewPosition);
+		sel.removeAllRanges();
+		sel.addRange(range);
 	}
 }
 
@@ -82,9 +90,15 @@ class PasteCommand extends Command {
 		if (application.clipboard.length === 0) return;
 		const sel = window.getSelection();
 		const range = sel.getRangeAt(0);
+		const newPosition = range.startOffset + application.clipboard.length;
 		application.text = application.text.substring(0, range.startOffset) + application.clipboard + application.text.substring(range.endOffset);
+		// append text to text area
 		textArea.innerHTML = application.text;
-
+		// set caret position
+		range.setStart(textArea.childNodes[0], newPosition);
+		range.setEnd(textArea.childNodes[0], newPosition);
+		sel.removeAllRanges();
+		sel.addRange(range);
 	}
 
 	constructor(application: Application) {
