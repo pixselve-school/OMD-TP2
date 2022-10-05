@@ -2,7 +2,7 @@
 import { Application, Command } from '../classes/Application';
 import kittenImage from '$lib/assets/nicolas-pitone-cmGtw04WTY8-unsplash.jpg';
 import capybaraImage from '$lib/assets/jaime-dantas-Fpvr7thkAf0-unsplash.jpg';
-import unicornImage from '$lib/assets/june-gathercole-CDt2jVuSkh4-unsplash.jpg';
+import unicornImage from '$lib/assets/fond.png';
 import ThemeButton from '$lib/ThemeButton.svelte';
 import RibbonDrawer from '$lib/RibbonDrawer.svelte';
 import RibbonButton from '$lib/RibbonButton.svelte';
@@ -287,8 +287,12 @@ function handleType(event: InputEvent) {
 		</RibbonDrawer>
 	{:else if menuSelected === MenuOption.About}
 		<RibbonDrawer>
-			<div class='h-full flex items-center'>
-				Projet réalisé par Mael KERICHARD et Romain BRIEND
+			<div class='h-full flex justify-center flex-col'>
+				<div>Projet réalisé par Mael KERICHARD et Romain BRIEND</div>
+				<div>Images des thèmes chaton et capybara: <a class='text-blue-500' target='_blank' href='https://unsplash.com'>Unsplash</a></div>
+				<div>Image du thème licorne: <a class='text-blue-500' target='_blank' href='https://www.linkedin.com/in/chloe-becker-fr/'>Chloe Becker</a></div>
+				<div></div>
+
 			</div>
 		</RibbonDrawer>
 	{/if}
