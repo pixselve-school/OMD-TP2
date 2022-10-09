@@ -24,18 +24,9 @@ export class Application {
 		this._clipboard = value;
 	}
 
-
-	public getSelection(textArea: HTMLDivElement): string {
-		const selection = window.getSelection();
-		if (selection) {
-			return selection.toString();
-		}
-		return '';
-	}
-
 	constructor() {
 		this._clipboard = '';
-		this._text = '✏️ Commence ton histoire ici';
+		this._text = '';
 	}
 }
 
@@ -51,3 +42,13 @@ export abstract class Command {
 	}
 }
 
+export abstract class CommandWithSelection extends Command {
+	protected startIndex: number;
+	protected endIndex: number;
+
+	protected constructor(application: Application, startIndex: number, endIndex: number) {
+		super(application);
+		this.startIndex = startIndex;
+		this.endIndex = endIndex;
+	}
+}
