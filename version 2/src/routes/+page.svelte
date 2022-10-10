@@ -11,7 +11,6 @@ import { SelectionDirection, SelectionPart } from '../classes/Selection';
 
 let textArea: ElementContentEditable & HTMLDivElement;
 
-
 let themeImage = '';
 let themeColor = 'bg-blue-500';
 let currentTheme = Theme.Standard;
@@ -138,6 +137,44 @@ function handleSelection(selectionData: { detail: { from: SelectionPart, directi
 	console.log('Selection action');
 	application.executeCommand(new ModifySelection(application, selectionData.detail.from, selectionData.detail.direction));
 }
+
+/**
+ * Function to handle the undo event
+ */
+function handleUndo() {
+	console.log('Undo action');
+	application.undoCommand();
+	textArea.textContent = application.text;
+}
+
+/**
+ * Function to handle the redo event
+ */
+function handleRedo() {
+	console.log('Redo action');
+	application.redoCommand();
+	textArea.textContent = application.text;
+}
+
+function handleStartRecording() {
+	console.log('Started recording');
+	application.startRecording();
+	containsRecording = false;
+}
+
+function handleStopRecording() {
+	console.log('Stopped recording');
+	application.stopRecording();
+	containsRecording = true;
+}
+
+function handlePlayRecording() {
+	console.log('Started playing');
+	application.playRecording();
+	textArea.textContent = application.text;
+}
+
+let containsRecording = false;
 </script>
 
 <header class='{themeColor} p-1 text-white text-center'>
@@ -145,8 +182,8 @@ function handleSelection(selectionData: { detail: { from: SelectionPart, directi
 </header>
 
 <Ribbon on:copy={handleCopy} on:paste={handlePaste} on:cut={handleCut} bind:theme={currentTheme}
-				on:selection={handleSelection}></Ribbon>
-
+				on:selection={handleSelection} on:undo={handleUndo} on:redo={handleRedo} on:record={handleStartRecording}
+				on:stopRecord={handleStopRecording} on:play={handlePlayRecording} containsRecording={containsRecording}></Ribbon>
 <main class='bg-gray-200 p-4 h-full bg-local bg-cover' style='background-image: url({themeImage})'>
 	<div on:copy|preventDefault={handleCopy} on:paste|preventDefault={handlePaste} on:cut|preventDefault={handleCut}
 			 on:contextmenu|preventDefault={() => {}} on:keydown={handleKey} on:input={handleType} contenteditable='true'

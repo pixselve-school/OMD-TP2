@@ -31,13 +31,11 @@ export class Application {
 }
 
 export abstract class Command {
-	private backup: string;
 	protected application: Application;
 
 	abstract execute(): void;
 
 	protected constructor(application: Application) {
-		this.backup = '';
 		this.application = application;
 	}
 }

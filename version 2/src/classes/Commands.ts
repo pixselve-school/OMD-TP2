@@ -1,4 +1,4 @@
-import { Application, Command, CommandWithSelection } from './Application';
+import { Application, Command, CommandWithSelection, UndoableCommandWithSelection } from './Application';
 import { SelectionDirection, SelectionPart } from './Selection';
 
 export class CopyCommand extends CommandWithSelection {
@@ -12,7 +12,7 @@ export class CopyCommand extends CommandWithSelection {
 	}
 }
 
-export class CutCommand extends CommandWithSelection {
+export class CutCommand extends UndoableCommandWithSelection {
 
 	constructor(application: Application, startIndex: number, endIndex: number) {
 		super(application, startIndex, endIndex);
@@ -24,7 +24,7 @@ export class CutCommand extends CommandWithSelection {
 	}
 }
 
-export class PasteCommand extends CommandWithSelection {
+export class PasteCommand extends UndoableCommandWithSelection {
 	execute(): void {
 		if (this.application.clipboard.length === 0) return;
 		this.application.text = this.application.text.slice(0, this.startIndex) + this.application.clipboard + this.application.text.slice(this.endIndex);
@@ -37,8 +37,8 @@ export class PasteCommand extends CommandWithSelection {
 
 
 export class ModifySelection extends Command {
-	selectionPart: SelectionPart;
-	direction: SelectionDirection;
+	private readonly selectionPart: SelectionPart;
+	private readonly direction: SelectionDirection;
 
 	execute(): void {
 		let selection = window.getSelection();
