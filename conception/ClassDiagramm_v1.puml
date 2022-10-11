@@ -1,0 +1,57 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Application{
+    -String clipboard
+    -String text
+    +void executeCommand(Command command)
+}
+
+abstract class Command{
+    #Application application
+    -String backup
+    +void execute()
+}
+
+Command <|-- CommandWithSelection
+
+abstract class CommandWithSelection{
+    #Integer startIndex
+    #Integer endIndex
+}
+
+CommandWithSelection <|-- CopyCommand
+CommandWithSelection <|-- CutCommand
+CommandWithSelection <|-- PasteCommand
+Command <|-- ModifySelection
+
+class CopyCommand{
+}
+
+class CutCommand{
+}
+
+class PasteCommand{
+}
+
+class ModifySelection{
+    -SelectionPart selectionPart
+    -SelectionDirection direction
+}
+
+enum SelectionPart {
+  BEGIN
+  END
+}
+
+enum SelectionDirection {
+  EXPAND
+  SHRINK
+}
+
+Command o-- Application
+
+SelectionDirection -- ModifySelection
+SelectionPart -- ModifySelection
+
+@enduml
