@@ -9,10 +9,6 @@ class Application{
     -<color:green>CommandRecord recording</color>
     -<color:green>boolean isInRecording</color>
     +void executeCommand(Command command)
-    +<color:green>void undoCommand()</color>
-    +<color:green>void redoCommand()</color>
-    +<color:green>void startRecording()</color>
-    +<color:green>void stopRecording()</color>
 }
 
 abstract class Command{
@@ -55,6 +51,23 @@ class CopyCommand{
 
 class PlayRecordCommand ##[bold]green{
 }
+
+class StartRecordCommand ##[bold]green{
+}
+
+class StopRecordCommand ##[bold]green{
+}
+
+class UndoCommand ##[bold]green{
+}
+
+class RedoCommand ##[bold]green{
+}
+
+Command <|-[#green]- UndoCommand
+Command <|-[#green]- RedoCommand
+Command <|-[#green]- StartRecordCommand
+Command <|-[#green]- StopRecordCommand
 
 UndoableCommand <|-[#green]- PlayRecordCommand
 

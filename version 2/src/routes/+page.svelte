@@ -6,7 +6,14 @@ import unicornImage from '$lib/assets/fond.png';
 import { Confetti } from 'svelte-confetti';
 import { Theme } from '../classes/Theme';
 import Ribbon from '$lib/Ribbon.svelte';
-import { CopyCommand, CutCommand, ModifySelection, PasteCommand, PlayRecordCommand } from '../classes/Commands';
+import {
+	CopyCommand,
+	CutCommand,
+	ModifySelection,
+	PasteCommand,
+	PlayRecordCommand, RedoCommand, StartRecordCommand, StopRecordCommand,
+	UndoCommand
+} from '../classes/Commands';
 import { SelectionDirection, SelectionPart } from '../classes/Selection';
 
 let textArea: ElementContentEditable & HTMLDivElement;
@@ -143,7 +150,7 @@ function handleSelection(selectionData: { detail: { from: SelectionPart, directi
  */
 function handleUndo() {
 	console.log('Undo action');
-	application.undoCommand();
+	application.executeCommand(new UndoCommand(application));
 	textArea.textContent = application.text;
 }
 
@@ -152,19 +159,19 @@ function handleUndo() {
  */
 function handleRedo() {
 	console.log('Redo action');
-	application.redoCommand();
+	application.executeCommand(new RedoCommand(application));
 	textArea.textContent = application.text;
 }
 
 function handleStartRecording() {
 	console.log('Started recording');
-	application.startRecording();
+	application.executeCommand(new StartRecordCommand(application));
 	containsRecording = false;
 }
 
 function handleStopRecording() {
 	console.log('Stopped recording');
-	application.stopRecording();
+	application.executeCommand(new StopRecordCommand(application));
 	containsRecording = true;
 }
 

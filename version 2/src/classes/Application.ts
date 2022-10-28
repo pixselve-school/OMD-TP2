@@ -1,8 +1,8 @@
 export class Application {
 	private _clipboard: string;
 	private _text: string;
-	private commandHistory: UndoableCommand[] = [];
-	private undidCommandHistory: UndoableCommand[] = [];
+	private _commandHistory: UndoableCommand[] = [];
+	private _undidCommandHistory: UndoableCommand[] = [];
 	private _recording: null | CommandRecord = null;
 	private _isInRecording = false;
 
@@ -11,7 +11,7 @@ export class Application {
 		console.log(`⌛️ Executed command`);
 		if (command instanceof UndoableCommand) {
 			console.log(`Command saved to history`);
-			this.commandHistory.push(command);
+			this._commandHistory.push(command);
 			console.log(this._isInRecording);
 			console.log(this._recording);
 			if (this._isInRecording && this._recording !== null) {
@@ -20,39 +20,6 @@ export class Application {
 			}
 		}
 		command.execute();
-	}
-
-	public undoCommand() {
-		if (this.commandHistory.length > 0) {
-			const command = this.commandHistory.pop();
-			if (command) {
-				this.text = command.backup;
-				this.undidCommandHistory.push(command);
-			}
-		}
-	}
-
-	public redoCommand() {
-		if (this.undidCommandHistory.length > 0) {
-			const command = this.undidCommandHistory.pop();
-			if (command) {
-				command.execute();
-				this.commandHistory.push(command);
-			}
-		}
-	}
-
-	public startRecording() {
-
-		this._isInRecording = true;
-		this._recording = new CommandRecord();
-		console.log(this._recording);
-	}
-
-	public stopRecording() {
-
-		this._isInRecording = false;
-		console.log(this._recording);
 	}
 
 	public containsRecording(): boolean {
@@ -67,8 +34,24 @@ export class Application {
 		return this._isInRecording;
 	}
 
+	set isInRecording(value: boolean) {
+		this._isInRecording = value;
+	}
+
+	get commandHistory(): UndoableCommand[] {
+		return this._commandHistory;
+	}
+
+	get undidCommandHistory(): UndoableCommand[] {
+		return this._undidCommandHistory;
+	}
+
 	get recording(): CommandRecord | null {
 		return this._recording;
+	}
+
+	set recording(value: CommandRecord | null) {
+		this._recording = value;
 	}
 
 	set text(value: string) {
