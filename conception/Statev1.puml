@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/state-diagram
+
+    [*] --> S1
+    state "NoSelection" as S1
+    state "HasSelection" as S2
+
+    S1 --> S1 :  [ClipboardNotEmpty] Paste \n - Write text
+    S2 -left-> S2 : [ClipboardNotEmpty] Paste \n - Copy \n - Modify selection
+    S2 --> S1 : Cut \n or selection range == 0 \n or write to replace selection
+    S1 --> S2 : Select text
+    S2 --> [*]
+    S1 --> [*]
+
+@enduml
