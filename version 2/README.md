@@ -35,14 +35,18 @@ Pour stopper l'enregistrement, l'utilisateur va devoir utiliser le bouton dans l
 Lors de l'utilisation du bouton dans le ruban, l'utilisateur va pouvoir rejouer la série d'actions enregistrée, et cela,
 autant de fois qu'il le souhaite. Jusqu'à vouloir enregistrer un nouvel enregistrement, ce qui va écraser l'ancien.
 
+Lorsque l'on joue un enregistrement, les actions sont exécutées à l'endroit où elles ont été enregistrées.
 # Diagramme de classes
 
 ![diagramme de classe](../conception/ClassDiagramm_v2.png)
 
 Pour élaborer la version 2, nous avons repris notre diagramme de classe de la version 1 et nous avons apporté quelques modifications.
 
-Premièrement, la classe Application s'est élargi pour pouvoir stocker les actions annulables et les actions rétablies.
+Premièrement, la classe Application s'est élargi pour pouvoir stocker les actions annulables et les actions rétablies ainsi que le système d'enregistrement de commandes et de replay.
 
 Nous avons également ajouté une classe abstraite "UndoableCommand" qui hérite de la classe "Command". 
 Cette classe abstraite permet de différencier les actions que l'on peut annuler de celles que l'on ne peut pas. Les commandes de collage et de coupage vont hériter de cette classe.
+
+Les nouvelles fonctionnalités apportées par cette version sont implémentées sous forme de Command avec : StartRecordCommand, StopRecordCommand, PlayRecordCommand, UndoCommand et RedoCommand.
+La commande PlayRecordCommand hérite de UndoableCommand car elle est annulable (annuler cette commande revient à annuler la totalité des commandes exécutées en jouant l'enregistrement).
 
