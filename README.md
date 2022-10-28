@@ -1,5 +1,5 @@
 # TP2 OMD · Kitten Editor
-## Made with ❤️ by Mael KERICHARD & Romain BRIEND in Rennes
+## Made by Mael KERICHARD & Romain BRIEND in Rennes
 
 - Version 1 du projet : [version 1/README.md](version 1/README.md)
 - Version 2 du projet : [version 2/README.md](version 2/README.md)
@@ -10,7 +10,7 @@
 Le web est un support très confortable qui nous permet d'exprimer notre créativité très facilement.
 Il est aussi très facile de partager nos créations avec d'autres personnes.
 Nous avons aussi fait ce choix afin de pouvoir utiliser ce qui existe déjà pour réaliser notre frontend.
-C'est pour cela que nous avons utilisé un div avec un contenteditable pour la zone de texte ainsi que la selection du navigateur.
+C'est pour cela que nous avons utilisé un div avec un content_editable pour la zone de texte ainsi que la selection du navigateur.
 
 ## Description du workspace
 
