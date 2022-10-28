@@ -6,7 +6,7 @@ import unicornImage from '$lib/assets/fond.png';
 import { Confetti } from 'svelte-confetti';
 import { Theme } from '../classes/Theme';
 import Ribbon from '$lib/Ribbon.svelte';
-import { CopyCommand, CutCommand, ModifySelection, PasteCommand } from '../classes/Commands';
+import { CopyCommand, CutCommand, ModifySelection, PasteCommand, PlayRecordCommand } from '../classes/Commands';
 import { SelectionDirection, SelectionPart } from '../classes/Selection';
 
 let textArea: ElementContentEditable & HTMLDivElement;
@@ -170,7 +170,7 @@ function handleStopRecording() {
 
 function handlePlayRecording() {
 	console.log('Started playing');
-	application.playRecording();
+	application.executeCommand(new PlayRecordCommand(application));
 	textArea.textContent = application.text;
 }
 

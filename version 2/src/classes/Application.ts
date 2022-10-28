@@ -3,8 +3,8 @@ export class Application {
 	private _text: string;
 	private commandHistory: UndoableCommand[] = [];
 	private undidCommandHistory: UndoableCommand[] = [];
-	private recording: null | CommandRecord = null;
-	private isInRecording = false;
+	private _recording: null | CommandRecord = null;
+	private _isInRecording = false;
 
 
 	public executeCommand(command: Command) {
@@ -12,11 +12,11 @@ export class Application {
 		if (command instanceof UndoableCommand) {
 			console.log(`Command saved to history`);
 			this.commandHistory.push(command);
-			console.log(this.isInRecording);
-			console.log(this.recording);
-			if (this.isInRecording && this.recording !== null) {
+			console.log(this._isInRecording);
+			console.log(this._recording);
+			if (this._isInRecording && this._recording !== null) {
 				console.log('Command added to recording');
-				this.recording.addCommand(command);
+				this._recording.addCommand(command);
 			}
 		}
 		command.execute();
@@ -44,34 +44,31 @@ export class Application {
 
 	public startRecording() {
 
-		this.isInRecording = true;
-		this.recording = new CommandRecord();
-		console.log(this.recording);
+		this._isInRecording = true;
+		this._recording = new CommandRecord();
+		console.log(this._recording);
 	}
 
 	public stopRecording() {
 
-		this.isInRecording = false;
-		console.log(this.recording);
-	}
-
-	public playRecording() {
-		console.log(this.recording);
-		console.log(this.isInRecording);
-		if (this.recording != null && !this.isInRecording) {
-
-			for (let command of this.recording.commands) {
-				this.executeCommand(command);
-			}
-		}
+		this._isInRecording = false;
+		console.log(this._recording);
 	}
 
 	public containsRecording(): boolean {
-		return this.recording !== null && !this.isInRecording;
+		return this._recording !== null && !this._isInRecording;
 	}
 
 	get text(): string {
 		return this._text;
+	}
+
+	get isInRecording(): boolean{
+		return this._isInRecording;
+	}
+
+	get recording(): CommandRecord | null {
+		return this._recording;
 	}
 
 	set text(value: string) {

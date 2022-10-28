@@ -1,4 +1,10 @@
-import { Application, Command, CommandWithSelection, UndoableCommandWithSelection } from './Application';
+import {
+	Application,
+	Command,
+	CommandWithSelection,
+	UndoableCommand,
+	UndoableCommandWithSelection
+} from './Application';
 import { SelectionDirection, SelectionPart } from './Selection';
 
 export class CopyCommand extends CommandWithSelection {
@@ -12,6 +18,22 @@ export class CopyCommand extends CommandWithSelection {
 	}
 }
 
+export class PlayRecordCommand extends UndoableCommand {
+
+	constructor(application: Application) {
+		super(application);
+	}
+
+	execute(): void {
+		if (this.application.recording != null && !this.application.isInRecording) {
+
+			for (let command of this.application.recording.commands) {
+				Object.create(command).execute();
+			}
+		}
+	}
+
+}
 export class CutCommand extends UndoableCommandWithSelection {
 
 	constructor(application: Application, startIndex: number, endIndex: number) {
