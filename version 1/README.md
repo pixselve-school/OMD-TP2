@@ -43,3 +43,16 @@ car nous avions besoin de savoir si une sélection était écrasée par le texte
 
 Nous avons ensuite un objet Application unique qui stocke le texte écris et le texte copié dans le presse-papiers. C'est également l'application qui possède la méthode "executeCommand" qui va permettre d'exécuter une commande.
 Cette méthode est appelée soit par les boutons du ruban, soit par les raccourcis clavier.
+
+# Diagramme d'états
+
+![diagramme d'état](../conception/Statev1.png)
+
+Les états de l'application pourraient être axés autour de l'état "sélection de texte" et "aucun texte sélectionné".
+
+Dans l'état où aucun texte n'est sélectionné, l'on peut écrire du texte ou copier du texte si le presse-papiers n'est pas vide.
+Sélectionner un texte dans cet état fera transitionner vers l'état "sélection de texte".
+
+Dans l'état "sélection de texte", on peut maintenant copier la sélection ainsi que la couper. On peut aussi modifier la sélection en agrandissant ou diminuant celle-ci par la droite ou la gauche.
+
+Pour de nouveau basculer dans l'état sans texte sélectionné, soit l'utilisateur désélectionne le texte lui-même, soit il coupe le texte, ou alors, s'il écrit un caractère, ce caractère remplacera la sélection.

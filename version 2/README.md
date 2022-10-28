@@ -50,3 +50,9 @@ Cette classe abstraite permet de différencier les actions que l'on peut annuler
 Les nouvelles fonctionnalités apportées par cette version sont implémentées sous forme de Command avec : StartRecordCommand, StopRecordCommand, PlayRecordCommand, UndoCommand et RedoCommand.
 La commande PlayRecordCommand hérite de UndoableCommand car elle est annulable (annuler cette commande revient à annuler la totalité des commandes exécutées en jouant l'enregistrement).
 
+# Diagramme d'états
+
+![diagramme d'état](../conception/Statev2.png)
+
+Pour la version 2, on conserve les états de la précédente version. Chaque état a maintenant la possibilité d'enregistrer des commandes, de stopper l'enregistrement, d'annuler ou de rétablir une action.
+On peut également jouer un enregistrement de commandes, si un texte est sélectionné, cette action fera basculer dans l'état "pas de sélection".
