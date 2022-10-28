@@ -1,6 +1,6 @@
 import {
 	Application,
-	Command,
+	Command, CommandRecord,
 	CommandWithSelection,
 	UndoableCommand,
 	UndoableCommandWithSelection
@@ -15,6 +15,67 @@ export class CopyCommand extends CommandWithSelection {
 
 	execute(): void {
 		this.application.clipboard = this.application.text.slice(this.startIndex, this.endIndex);
+	}
+}
+
+export class UndoCommand extends Command {
+
+	constructor(application: Application) {
+		super(application);
+	}
+
+	execute(): void {
+		if (this.application.commandHistory.length > 0) {
+			const command = this.application.commandHistory.pop();
+			if (command) {
+				this.application.text = command.backup;
+				this.application.undidCommandHistory.push(command);
+			}
+		}
+	}
+
+}
+
+export class RedoCommand extends Command {
+
+	constructor(application: Application) {
+		super(application);
+	}
+
+	execute(): void {
+		if (this.application.undidCommandHistory.length > 0) {
+			const command = this.application.undidCommandHistory.pop();
+			if (command) {
+				command.execute();
+				this.application.commandHistory.push(command);
+			}
+		}
+	}
+
+}
+
+export class StartRecordCommand extends Command {
+
+	constructor(application: Application) {
+		super(application);
+	}
+
+	execute(): void {
+		this.application.isInRecording = true;
+		this.application.recording = new CommandRecord();
+		console.log(this.application.recording);
+	}
+}
+
+export class StopRecordCommand extends Command {
+
+	constructor(application: Application) {
+		super(application);
+	}
+
+	execute(): void {
+		this.application.isInRecording = false;
+		console.log(this.application.recording);
 	}
 }
 
