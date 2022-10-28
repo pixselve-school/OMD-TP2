@@ -28,3 +28,19 @@ variable et supprimé du document.
 
 La sélection est modifiable uniquement avec les commandes du ruban.
 Il est néanmoins possible de la commencer en utilisant la souris.
+
+# Diagramme de classes
+
+![diagramme de classe](../conception/ClassDiagramm_v1.png)
+
+Pour réaliser ce projet, nous sommes partis sur la conception d'un Command pattern. 
+
+Ce pattern tourne autour de la classe abstraite "Command" qui possède une méthode "execute" qui va servir à éxectuer la commande en question.
+
+
+Nous avons créé 4 classes commandes pour chaque fonctionnalité souhaitée : CopyCommand, CutCommand, PasteCommand et ModifySelection.
+Une autre classe abstraite héritant de Command à été utilisé pour les commandes ayant besoin d'une séléction et donc d'une position de début et de fin pour s'appliquer. C'est le cas de la commande pour copier ou couper. La commande pour coller du texte fait aussi partis de ce cas-là, 
+car nous avions besoin de savoir si une selection était écrasé par le texte collé. 
+
+Nous avons ensuite un objet Application unique qui stocke le texte écris et le texte copié dans le presse-papier. C'est également l'application qui possède la méthode "executeCommand" qui va permettre d'éxécuter une commande.
+Cette méthode est appelée soit par les boutons du ruban, soit par les raccourcis clavier.

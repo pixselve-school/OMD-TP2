@@ -9,7 +9,6 @@ class Application{
 
 abstract class Command{
     #Application application
-    -String backup
     +void execute()
 }
 
@@ -49,7 +48,7 @@ enum SelectionDirection {
   SHRINK
 }
 
-Command o-- Application
+Command -- Application
 
 SelectionDirection -- ModifySelection
 SelectionPart -- ModifySelection

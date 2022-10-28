@@ -72,7 +72,7 @@ enum SelectionDirection {
   SHRINK
 }
 
-Command o-- Application
+Command -- Application
 Application o-[#green]- CommandRecord
 
 SelectionDirection -- ModifySelection
