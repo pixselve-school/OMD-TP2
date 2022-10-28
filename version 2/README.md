@@ -1,38 +1,36 @@
-# create-svelte
+# Version 2
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+En plus des fonctionnalités de la version 1, nous avons implémenté les fonctionnalités suivantes :
 
-## Creating a project
+- Annuler
+- Rétablir
+- Enregistrer une série d'actions
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Annuler
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+Les commandes de copie, de collage et de coupage sont annulables.
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+Ces commandes vont hériter d'une classe qui permet de différencier les actions que l'on peut annuler de celles que l'on
+ne peut pas.
 
-## Developing
+À l'exécution, elles seront ajoutées à un historique d'actions et l'état du document sera sauvegardé.
+Lors de l'utilisation de la commande CTRL+Z ou le bouton dans le ruban, l'action précédente est annulée et l'état du
+document lors de l'exécution de cette action est restauré.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Cette action annulée sera stockée dans un autre historique d'actions.
 
-```bash
-npm run dev
+## Rétablir
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+Lors de l'utilisation du bouton dans le ruban, l'action précédemment annulée est rétablie. Pour ce faire, elle est
+simplement exécutée à nouveau.
 
-## Building
+## Enregistrer une série d'actions
 
-To create a production version of your app:
+Lors de l'utilisation du bouton dans le ruban, l'utilisateur va pouvoir commencer un enregistrement d'une série
+d'actions.
+Les actions annulables seront enregistrées dans une liste.
 
-```bash
-npm run build
-```
+Pour stopper l'enregistrement, l'utilisateur va devoir utiliser le bouton dans le ruban.
 
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+Lors de l'utilisation du bouton dans le ruban, l'utilisateur va pouvoir rejouer la série d'actions enregistrée, et cela,
+autant de fois qu'il le souhaite. Jusqu'à vouloir enregistrer un nouvel enregistrement, ce qui va écraser l'ancien.

@@ -1,38 +1,30 @@
-# create-svelte
+# Version 1
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Dans cette version, nous avons implémenté les fonctionnalités suivantes :
 
-## Creating a project
+- Copie de texte
+- Collage de texte
+- Couper du texte
+- Manipulation de la sélection
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Copie
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+Nous utilisons un presse-papier global à l'application.
+Lors de l'utilisation de la commande CTRL+C ou le bouton dans le ruban, le texte sélectionné est enregistré dans cette
+variable.
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+## Collage
 
-## Developing
+Lors de l'utilisation de la commande CTRL+V ou le bouton dans le ruban, le texte contenu dans la variable est collé à la
+position du curseur.
+Celui-ci est déplacé à la fin du texte collé.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Couper
 
-```bash
-npm run dev
+Lors de l'utilisation de la commande CTRL+X ou le bouton dans le ruban, le texte sélectionné est enregistré dans la
+variable et supprimé du document.
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+## Manipulation de la sélection
 
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+La sélection est modifiable uniquement avec les commandes du ruban.
+Il est néanmoins possible de la commencer en utilisant la souris.
