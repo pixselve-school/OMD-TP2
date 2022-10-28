@@ -1,0 +1,81 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Application{
+    -String clipboard
+    -String text
+    -<color:green>UndoableCommand[] commandHistory</color>
+    -<color:green>UndoableCommand[] undidCommandHistory</color>
+    -<color:green>CommandRecord recording</color>
+    -<color:green>boolean isInRecording</color>
+    +void executeCommand(Command command)
+    +<color:green>void undoCommand()</color>
+    +<color:green>void redoCommand()</color>
+    +<color:green>void startRecording()</color>
+    +<color:green>void stopRecording()</color>
+    +<color:green>void playRecording()</color>
+}
+
+abstract class Command{
+    #Application application
+    +void execute()
+}
+
+abstract class UndoableCommand ##[bold]green{
+    -<color:green>String backup</color>
+}
+
+abstract class UndoableCommandWithSelection ##[bold]green {}
+
+class CommandRecord ##[bold]green {
+    -<color:green>UndoableCommand[] commands</color>
+    +<color:green>void addCommand(UndoableCommand command)</color>
+}
+
+UndoableCommand <|-[#green]- UndoableCommandWithSelection
+
+Command <|-[#green]- UndoableCommand
+
+Command <|-- CommandWithSelection
+
+abstract class CommandWithSelection{
+    #Integer startIndex
+    #Integer endIndex
+}
+
+CommandWithSelection <|-- CopyCommand
+UndoableCommandWithSelection <|-[#green]- CutCommand
+UndoableCommandWithSelection <|-[#green]- PasteCommand
+Command <|-- ModifySelection
+
+class CopyCommand{
+}
+
+class CutCommand{
+}
+
+class PasteCommand{
+}
+
+class ModifySelection{
+    -SelectionPart selectionPart
+    -SelectionDirection direction
+}
+
+enum SelectionPart {
+  BEGIN
+  END
+}
+
+enum SelectionDirection {
+  EXPAND
+  SHRINK
+}
+
+Command o-- Application
+Application o-[#green]- CommandRecord
+
+SelectionDirection -- ModifySelection
+SelectionPart -- ModifySelection
+
+@enduml
